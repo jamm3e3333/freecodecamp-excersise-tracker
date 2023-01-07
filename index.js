@@ -58,7 +58,7 @@ app.get('/api/hello', function(req, res) {
 app.post('/api/users', serviceHandler(userService.handlePostUser))
 app.get('/api/users', serviceHandler(userService.handleGetUsers))
 app.post('/api/users/:id/exercises', serviceHandler(userService.handlePostUserLogs))
-app.get('/api/users/:id/logs', serviceHandler(userService.handlePostUserLogs))
+app.get('/api/users/:id/logs', serviceHandler(userService.handleGetUserLogs))
 
 app.use((error, _req, res, _next) => {
   if (error) {
