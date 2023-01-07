@@ -23,7 +23,7 @@ const handlePostUserLogs = async (context) => {
         description: excersise.description,
         date: excersise.date,
         duration: excersise.duration,
-        _id: excersise.id,
+        _id: userWithLogs.id,
     }
 }
 
