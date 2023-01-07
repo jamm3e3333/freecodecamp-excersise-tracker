@@ -13,7 +13,14 @@ const hangleGetUsers = (_context) => {
     return userModel.findUsers()
 }
 
+const handlePostUserLogs = async (context) => {
+    const {description, date, duration} = context.requestBody
+    const user = await userModel.findUserForId(context.param.id)
+    return userModel.createUserLogs(user, { description, duration, date: date ?? new Date(), userId: user.id })
+}
+
 module.exports = {
     handlePostUser,
     hangleGetUsers,
+    handlePostUserLogs,
 }

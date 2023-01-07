@@ -57,6 +57,7 @@ app.get('/api/hello', function(req, res) {
 })
 app.post('/api/users', serviceHandler(userService.handlePostUser))
 app.get('/api/users', serviceHandler(userService.hangleGetUsers))
+app.post('/api/users/:id/exercises', serviceHandler(userService.handlePostUserLogs))
 
 app.use((error, _req, res, _next) => {
   if (error) {

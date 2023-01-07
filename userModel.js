@@ -20,14 +20,11 @@ const User = mongoose.model('Url', userSchema)
 const createUser = (username) =>
     User.create({ username })
 
-const createUserLogs = ({ description, duration, date, count, userId }) => {
-    User.findOneAndUpdate(
-        { id: userId },
-        { 
-            count,
-            logs: [{ description, duration, date: new Date(date).toDateString() }]
-        }
-    )
+const createUserLogs = (user, { description, duration, date }) => {
+    userLogs = [...(user.log ?? []), { description, duration, date: new Date(date).toDateString() }]
+    user.log = userLogs
+    user.count = userLogs.length
+    return user.save()
 }
 
 const findUserForId = (id) =>
