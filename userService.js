@@ -51,10 +51,7 @@ const handleGetUserLogs = async (context) => {
         }
         return x
     })?.filter(x => x)
-    if (limit) {
-        userLogs.slice(0, limit)
-    }
-    user.log = userLogs
+    user.log = limit ? userLogs.slice(0, limit) : userLogs
     return user
 }
 
