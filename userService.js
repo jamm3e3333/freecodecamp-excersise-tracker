@@ -1,3 +1,4 @@
+const dateFns = require('date-fns')
 const userModel = require('./userModel')
 
 const handlePostUser = async (context) => {
@@ -9,9 +10,9 @@ const handlePostUser = async (context) => {
     }
 }
 
-const handleGetUsers = (_context) => {
-    return userModel.findUsers()
-}
+const handleGetUsers = (_context) =>
+    userModel.findUsers()
+
 
 const handlePostUserLogs = async (context) => {
     const {description, date, duration} = context.requestBody
@@ -28,7 +29,33 @@ const handlePostUserLogs = async (context) => {
 }
 
 const handleGetUserLogs = async (context) => {
-    return userModel.findUserForId(context.param.id)
+    const { from, to, limit } = context.param
+    const user = await userModel.findUserForId(context.param.id)
+    const userLogs = user.log?.map(x => {
+        if ((from || to) && !x?.date) {
+            return undefined
+        }
+        if (
+            from &&
+            dateFns.compareAsc(new Date(x?.date), new Date(from)) === -1 &&
+            new Date(x.date).toDateString() !== new Date(from).toDateString()
+        ) {
+            return undefined
+        }
+        if (
+            to &&
+            dateFns.compareDesc(new Date(x?.date), new Date(to)) === -1 &&
+            new Date(x.date).toDateString() !== new Date(to).toDateString()
+        ) {
+            return undefined
+        }
+        return x
+    })?.filter(x => x)
+    if (limit) {
+        userLogs.slice(0, limit)
+    }
+    user.log = userLogs
+    return user
 }
 
 module.exports = {
