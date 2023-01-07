@@ -9,7 +9,7 @@ const handlePostUser = async (context) => {
     }
 }
 
-const hangleGetUsers = (_context) => {
+const handleGetUsers = (_context) => {
     return userModel.findUsers()
 }
 
@@ -27,8 +27,13 @@ const handlePostUserLogs = async (context) => {
     }
 }
 
+const handleGetUserLogs = async (context) => {
+    return userModel.findUserForId(context.param.id)
+}
+
 module.exports = {
     handlePostUser,
-    hangleGetUsers,
+    handleGetUsers,
     handlePostUserLogs,
+    handleGetUserLogs,
 }
