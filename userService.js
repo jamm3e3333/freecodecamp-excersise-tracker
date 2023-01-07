@@ -19,13 +19,11 @@ const handlePostUserLogs = async (context) => {
     const userWithLogs = await userModel.createUserLogs(user, { description, duration, date: date ?? new Date(), userId: user.id })
     const excersise = userWithLogs.log[userWithLogs.log.length - 1]
     return {
-        userWithLogs,
-        excersise: {
-            description: excersise.description,
-            date: excersise.date,
-            duration: excersise.duration,
-            _id: excersise.id,
-        }
+        username: userWithLogs.username,
+        description: excersise.description,
+        date: excersise.date,
+        duration: excersise.duration,
+        _id: excersise.id,
     }
 }
 
